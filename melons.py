@@ -1,3 +1,6 @@
+import random
+import datetime
+
 """This file should have our order classes in it."""
 
 class AbstractMelonOrder(object):
@@ -15,12 +18,23 @@ class AbstractMelonOrder(object):
 
         self.shipped = True
 
+    def get_base_price(self):
+        """Choose a random integer between 5 and 9 as the base_price."""
+        #8-11am, Monday-Friday
+        splurge_base = random.randint(5,9)
+        rush_hour = datetime.weekday(0, 4) and 8 < datetime.hour < 10
+
+        if datetime.now() in rush_hour:
+            return splurge_base + 4
+
+        return splurge_base 
+
 
 
     def get_total(self):
         """Calculate price."""
 
-        base_price = 5
+        base_price = self.get_base_price()
         
         if self.species == 'Christmas':
             base_price = base_price * 1.5
@@ -69,11 +83,11 @@ class GovernmentMelonOrder(AbstractMelonOrder):
     tax = 0
     order_type = "domestic"
     country_code = "USA"
-    passed_inspection = False
 
     def __init__(self, species, qty):
         """Initialize melon order attributes"""
         super(GovernmentMelonOrder, self).__init__(species, qty, "USA")
+        self.passed_inspection = False
 
     def mark_inspection_passed(self, passed):
         """Set mark_inspection_passed to whatever the boolean is."""
