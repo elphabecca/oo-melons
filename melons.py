@@ -65,3 +65,18 @@ class InternationalMelonOrder(AbstractMelonOrder):
         
         return super(InternationalMelonOrder, self).get_total()
 
+class GovernmentMelonOrder(AbstractMelonOrder):
+    tax = 0
+    order_type = "domestic"
+    country_code = "USA"
+    passed_inspection = False
+
+    def __init__(self, species, qty):
+        """Initialize melon order attributes"""
+        super(GovernmentMelonOrder, self).__init__(species, qty, "USA")
+
+    def mark_inspection_passed(self, passed):
+        """Set mark_inspection_passed to whatever the boolean is."""
+
+        self.mark_inspection_passed = passed
+
